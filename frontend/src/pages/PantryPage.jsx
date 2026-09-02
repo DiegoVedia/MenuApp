@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { api } from '../api/client.js';
 import ErrorBanner from '../components/ErrorBanner.jsx';
+import EmptyState from '../components/EmptyState.jsx';
 
 export default function PantryPage() {
   const [items, setItems] = useState([]);
@@ -80,9 +81,14 @@ export default function PantryPage() {
       {loading ? (
         <div className="spinner-text">Cargando…</div>
       ) : items.length === 0 ? (
-        <div className="empty-state">Tu despensa está vacía. Agregá lo que ya tenés en casa para que la lista de compras lo descuente automáticamente.</div>
+        <EmptyState
+          icon="🧺"
+          title="Tu despensa está vacía"
+          description="Cargá lo que ya tenés en casa usando el formulario de arriba — así se descuenta automáticamente cuando generes una lista de compras."
+        />
       ) : (
         <div className="card">
+          <div className="table-scroll">
           <table>
             <thead><tr><th>Ingrediente</th><th>Categoría</th><th>Cantidad</th><th></th></tr></thead>
             <tbody>
@@ -96,6 +102,7 @@ export default function PantryPage() {
               ))}
             </tbody>
           </table>
+          </div>
         </div>
       )}
     </div>

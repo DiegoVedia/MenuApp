@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { api } from '../api/client.js';
 import ErrorBanner from '../components/ErrorBanner.jsx';
+import EmptyState from '../components/EmptyState.jsx';
 
 function addDaysToDateStr(dateStr, days) {
   const d = new Date(`${dateStr}T00:00:00Z`);
@@ -86,7 +87,11 @@ export default function ShoppingListsPage() {
       {loading ? (
         <div className="spinner-text">Cargando…</div>
       ) : lists.length === 0 ? (
-        <div className="empty-state">Todavía no generaste ninguna lista de compras.</div>
+        <EmptyState
+          icon="🛒"
+          title="Todavía no generaste ninguna lista"
+          description="Elegí una semana que ya tenga un menú generado y consolidá sus ingredientes en una lista de compras, arriba en el formulario."
+        />
       ) : (
         <div className="card">
           {lists.map((list) => (

@@ -282,14 +282,16 @@ export default function MealFormPage() {
             <button className="btn small secondary" type="button" onClick={handleScalePreview}>Calcular</button>
           </div>
           {scalePreview && (
-            <table style={{ marginTop: '0.75rem' }}>
-              <thead><tr><th>Ingrediente</th><th>Cantidad</th></tr></thead>
-              <tbody>
-                {scalePreview.ingredients.map((ing) => (
-                  <tr key={ing.ingredient_id}><td>{ing.ingredient_name}</td><td>{ing.quantity} {ing.unit}</td></tr>
-                ))}
-              </tbody>
-            </table>
+            <div className="table-scroll" style={{ marginTop: '0.75rem' }}>
+              <table>
+                <thead><tr><th>Ingrediente</th><th>Cantidad</th></tr></thead>
+                <tbody>
+                  {scalePreview.ingredients.map((ing) => (
+                    <tr key={ing.ingredient_id}><td>{ing.ingredient_name}</td><td>{ing.quantity} {ing.unit}</td></tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           )}
         </div>
       )}

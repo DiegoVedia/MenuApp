@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { api } from '../api/client.js';
 import ErrorBanner from '../components/ErrorBanner.jsx';
+import EmptyState from '../components/EmptyState.jsx';
 
 const MEAL_TYPES = ['desayuno', 'almuerzo', 'cena', 'snack'];
 
@@ -85,10 +86,13 @@ export default function MealsPage() {
       {loading ? (
         <div className="spinner-text">Cargando comidas…</div>
       ) : meals.length === 0 ? (
-        <div className="empty-state">
-          Todavía no cargaste comidas. <Link to="/meals/new">Creá la primera</Link> o{' '}
-          <Link to="/import">importá una desde un link</Link>.
-        </div>
+        <EmptyState
+          icon="🍽"
+          title="Todavía no cargaste ninguna comida"
+          description="Empezá creando una receta a mano, o importándola directo desde un link — la vista previa te deja corregir lo que haga falta antes de guardar."
+          action={{ label: '+ Nueva comida', to: '/meals/new' }}
+          secondaryAction={{ label: 'Importar desde un link', to: '/import' }}
+        />
       ) : (
         <div className="meal-grid">
           {meals.map((meal) => (

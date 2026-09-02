@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { api, ApiError } from '../api/client.js';
 import ErrorBanner from '../components/ErrorBanner.jsx';
+import EmptyState from '../components/EmptyState.jsx';
 
 const DAY_LABELS = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
 
@@ -141,7 +142,11 @@ export default function MenuPage() {
       {loading ? (
         <div className="spinner-text">Cargando…</div>
       ) : !week ? (
-        <div className="empty-state">Todavía no generaste un menú para la semana del {weekStart}.</div>
+        <EmptyState
+          icon="📅"
+          title={`Sin menú para la semana del ${weekStart}`}
+          description='Tocá "Generar menú de esta semana" arriba para armar el calendario automáticamente a partir de tus comidas cargadas.'
+        />
       ) : (
         <div className="calendar">
           {DAY_LABELS.map((label, dayIndex) => (
