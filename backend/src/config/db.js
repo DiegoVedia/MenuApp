@@ -10,8 +10,18 @@ const { Pool, types } = pg;
 // dejamos como string tal cual vienen de Postgres.
 types.setTypeParser(1082, (value) => value);
 
+// Bases gestionadas (Neon, Render, Heroku, etc.) exigen conexión con SSL y
+// suelen usar certificados que Node no siempre reconoce en su cadena de
+// confianza por defecto. Detectamos automáticamente cuándo hace falta SSL
+// (host remoto, o el propio DATABASE_URL ya pide sslmode=require) para no
+// depender de que quien despliega lo configure a mano.
+const databaseUrl = process.env.DATABASE_URL || '';
+const isLocalHost = /localhost|127\.0\.0\.1/.test(databaseUrl);
+const needsSsl = process.env.PGSSL === 'true' || (!isLocalHost && databaseUrl.startsWith('postgres'));
+
 export const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
+  connectionString: databaseUrl,
+  ssl: needsSsl ? { rejectUnauthorized: false } : undefined,
 });
 
 pool.on('error', (err) => {
